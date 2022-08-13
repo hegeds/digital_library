@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:http/http.dart' as http;
+import './api.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,12 +32,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String barCode = "";
+  String bookDetails = "";
 
-  void _scanBarcode() {
-    setState(() async {
-      barCode = await FlutterBarcodeScanner.scanBarcode(
-          'blue', 'cancel', true, ScanMode.BARCODE);
+  void _scanBarcode() async {
+    var bookAPI = GoogleBooksAPI(http.Client());
+
+    var barCode = await FlutterBarcodeScanner.scanBarcode(
+        'blue', 'cancel', true, ScanMode.BARCODE);
+
+    var book = await bookAPI.fetchBook(barCode);
+    setState(() {
+      bookDetails = book.toString();
     });
   }
 
@@ -50,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              barCode,
+              bookDetails,
               style: Theme.of(context).textTheme.headline4,
             ),
           ],
@@ -60,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: _scanBarcode,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
