@@ -16,12 +16,10 @@ class _MyHomePageState extends State<MyHomePage> {
   String bookDetails = "";
 
   void _scanBarcode() async {
-    var bookAPI = GoogleBooksAPI(http.Client());
-
     var barCode = await FlutterBarcodeScanner.scanBarcode(
         'blue', 'cancel', true, ScanMode.BARCODE);
 
-    var book = await bookAPI.fetchBook(barCode);
+    var book = await fetchBookFromGoogle(barCode);
     setState(() {
       bookDetails = book.toString();
     });

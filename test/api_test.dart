@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:http/testing.dart';
 import 'package:mockito/annotations.dart';
 import 'package:test/test.dart';
 import 'package:http/http.dart' as http;
@@ -46,8 +45,7 @@ void main() {
         (_) async => http.Response(jsonEncode(responseBody), 200),
       );
 
-      var api = GoogleBooksAPI(client);
-      var actualBook = await api.fetchBook(isbn);
+      var actualBook = await fetchBookFromGoogle(isbn, client: client);
 
       expect(actualBook, isA<Book>());
       expect('$actualBook', '$expectedBook');
@@ -64,8 +62,7 @@ void main() {
           (_) async => http.Response(jsonEncode(responseBody), 200),
         );
 
-        var api = GoogleBooksAPI(client);
-        var actualBook = await api.fetchBook(isbn);
+        var actualBook = await fetchBookFromGoogle(isbn, client: client);
 
         expect(actualBook, null);
       });
