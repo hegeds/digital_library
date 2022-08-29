@@ -6,7 +6,7 @@ import './model.dart';
 
 class BookAPI {
   Future<Book?> fetchBook(String isbn) async {
-    return Future<Book>.value(Book('', '', '', 0));
+    throw UnimplementedError();
   }
 }
 
