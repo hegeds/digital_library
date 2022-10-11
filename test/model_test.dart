@@ -24,4 +24,16 @@ void main() {
 
     expect('$book', expectedString);
   });
+
+  test('should be able to tranform to map', () {
+    var book = Book(isbn, author, title, published);
+    var expectedBookMap = {
+      'isbn': isbn,
+      'author': author,
+      'title': title,
+      'published': published
+    };
+
+    expect(book.toMap(), expectedBookMap);
+  });
 }

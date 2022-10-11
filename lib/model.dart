@@ -10,4 +10,13 @@ class Book {
   }
 
   Book(this.isbn, this.author, this.title, this.published);
+
+  Map<String, dynamic> toMap() {
+    return {
+      'author': author,
+      'title': title,
+      'isbn': isbn,
+      'published': published
+    };
+  }
 }

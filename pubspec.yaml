@@ -27,6 +27,9 @@ dependencies:
 
   flutter_barcode_scanner: ^2.0.0
   http: ^0.13.5
+  path: ^1.8.1
+  shared_preferences: ^2.0.15
+  sqflite: ^2.0.3+1
   test: ^1.21.1
 
 dev_dependencies:
