@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:private_library/library.dart';
 import 'package:private_library/settings.dart';
 
 import './home.dart';
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const MyHomePage(),
-        '/settings': (context) => const SettingsPage()
+        '/settings': (context) => const SettingsPage(),
+        '/library': (context) => const LibraryPage(),
       },
     );
   }

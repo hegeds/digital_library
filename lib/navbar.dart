@@ -7,10 +7,15 @@ class NavDrawer extends Drawer {
       : super(
             key: key,
             child: ListView(
+              primary: true,
               children: [
                 const DrawerHeader(
-                    decoration: BoxDecoration(color: Colors.blue),
-                    child: Text('Menu')),
+                  decoration: BoxDecoration(color: Colors.blue),
+                  child: Text(
+                    'Menu',
+                    style: TextStyle(fontSize: 30, color: Colors.white),
+                  ),
+                ),
                 ListTile(
                   leading: const Icon(Icons.home),
                   title: const Text('Home'),
@@ -23,6 +28,13 @@ class NavDrawer extends Drawer {
                   title: const Text('Settings'),
                   onTap: () {
                     Navigator.pushNamed(context, '/settings');
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.library_books),
+                  title: const Text('Library'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/library');
                   },
                 ),
               ],

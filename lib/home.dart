@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:http/http.dart' as http;
+import 'package:private_library/database.dart';
+import 'package:private_library/model.dart';
+import 'package:private_library/storage.dart';
 
 import './api.dart';
 import './navbar.dart';
@@ -20,6 +23,12 @@ class _MyHomePageState extends State<MyHomePage> {
         'blue', 'cancel', true, ScanMode.BARCODE);
 
     var book = await fetchBookFromGoogle(barCode);
+
+    if (book is Book) {
+      connectToDatabase().then((db) {
+        SQLiteShelf(db).addBook(book);
+      });
+    }
     setState(() {
       bookDetails = book.toString();
     });
