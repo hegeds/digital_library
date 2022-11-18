@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:private_library/book/list.dart';
 import 'package:private_library/database.dart';
 import 'package:private_library/model.dart';
 import 'package:private_library/storage.dart';
@@ -36,11 +37,7 @@ class _LibraryPageState extends State<LibraryPage> {
         context: context,
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: List.generate(
-              books.length, (index) => Text(books[index].toString())),
-        ),
+        child: BookList(books),
       ),
     );
   }
