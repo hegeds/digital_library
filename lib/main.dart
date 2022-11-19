@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:private_library/library.dart';
-import 'package:private_library/settings.dart';
+import 'package:private_library/pages/library.dart';
+import 'package:private_library/pages/settings.dart';
 
-import './home.dart';
-import './settings.dart';
+import 'pages/home.dart';
+import 'pages/settings.dart';
 
 void main() {
   runApp(const MyApp());

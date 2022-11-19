@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:private_library/book/list.dart';
 import 'package:private_library/database.dart';
 import 'package:private_library/model.dart';
 import 'package:private_library/storage.dart';
 
-import './navbar.dart';
+import '../components/navbar.dart';
+import '../components/list.dart';
 
 class LibraryPage extends StatefulWidget {
   const LibraryPage({Key? key}) : super(key: key);

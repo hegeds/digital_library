@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:http/http.dart' as http;
 import 'package:private_library/database.dart';
 import 'package:private_library/model.dart';
 import 'package:private_library/storage.dart';
 import 'package:sqflite/sqlite_api.dart';
 
-import './api.dart';
-import './navbar.dart';
-import 'book/list.dart';
+import '../api.dart';
+import '../components/navbar.dart';
+import '../components/list.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
