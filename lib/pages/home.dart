@@ -57,8 +57,10 @@ class _MyHomePageState extends State<MyHomePage> {
         ]),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _scanBarcode,
-        tooltip: 'Increment',
+        onPressed: () {
+          Navigator.pushNamed(context, '/add-book');
+        },
+        tooltip: 'Add book',
         child: const Icon(Icons.add),
       ),
     );

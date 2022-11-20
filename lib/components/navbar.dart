@@ -37,6 +37,13 @@ class NavDrawer extends Drawer {
                     Navigator.pushNamed(context, '/library');
                   },
                 ),
+                ListTile(
+                  leading: const Icon(Icons.create),
+                  title: const Text('Add book'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/add-book');
+                  },
+                ),
               ],
             ));
 }

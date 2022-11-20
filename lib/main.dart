@@ -4,6 +4,7 @@ import 'package:private_library/pages/settings.dart';
 
 import 'pages/home.dart';
 import 'pages/settings.dart';
+import 'pages/create.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const MyHomePage(),
         '/settings': (context) => const SettingsPage(),
         '/library': (context) => const LibraryPage(),
+        '/add-book': (context) => NewBookPage(),
       },
     );
   }
