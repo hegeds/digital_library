@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../api.dart';
-import '../components/navbar.dart';
-import '../model.dart';
-import '../database.dart';
-import '../storage.dart';
+import 'package:private_library/components/page_layout.dart';
+import 'package:private_library/api.dart';
+import 'package:private_library/model.dart';
+import 'package:private_library/database.dart';
+import 'package:private_library/storage.dart';
 
 class NewBookPage extends StatefulWidget {
   const NewBookPage({Key? key}) : super(key: key);
@@ -66,12 +66,12 @@ class _NewBookPAgeState extends State<NewBookPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
-      ),
-      drawer: NavDrawer(
-        context: context,
+    return PageLayout(
+      title: 'Add new book',
+      floatingActionButton: FloatingActionButton(
+        onPressed: _scanBarcode,
+        tooltip: 'Scan book',
+        child: const Icon(Icons.camera),
       ),
       body: Container(
           padding: const EdgeInsets.all(40.0),
@@ -100,11 +100,6 @@ class _NewBookPAgeState extends State<NewBookPage> {
                   onPressed: () => {_createBook()}, child: const Text('Save')),
             ],
           )),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _scanBarcode,
-        tooltip: 'Scan book',
-        child: const Icon(Icons.camera),
-      ),
     );
   }
 }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+
+import 'package:private_library/components/page_layout.dart';
 import 'package:private_library/database.dart';
 import 'package:private_library/model.dart';
 import 'package:private_library/storage.dart';
-
-import '../components/navbar.dart';
-import '../components/list.dart';
+import 'package:private_library/components/list.dart';
 
 class LibraryPage extends StatefulWidget {
   const LibraryPage({Key? key}) : super(key: key);
@@ -29,13 +29,8 @@ class _LibraryPageState extends State<LibraryPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Library'),
-      ),
-      drawer: NavDrawer(
-        context: context,
-      ),
+    return PageLayout(
+      title: 'Library',
       body: Center(
         child: BookList(books),
       ),
