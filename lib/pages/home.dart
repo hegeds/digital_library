@@ -1,38 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:private_library/database.dart';
-import 'package:private_library/model.dart';
-import 'package:private_library/storage.dart';
-import 'package:sqflite/sqlite_api.dart';
-
-import '../api.dart';
+import 'package:private_library/components/home_card.dart';
 import '../components/navbar.dart';
-import '../components/list.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  Book? book;
-
-  void _scanBarcode() async {
-    var barCode = await FlutterBarcodeScanner.scanBarcode(
-        'blue', 'cancel', true, ScanMode.BARCODE);
-
-    var fetchedBook = await fetchBookFromGoogle(barCode);
-
-    if (fetchedBook is Book) {
-      Database db = await connectToDatabase();
-      await SQLiteShelf(db).addBook(fetchedBook);
-    }
-    setState(() {
-      book = fetchedBook;
-    });
-  }
+class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,17 +15,22 @@ class _MyHomePageState extends State<MyHomePage> {
         context: context,
       ),
       body: Center(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          LayoutBuilder(
-            builder: ((context, constraints) {
-              if (book != null) {
-                return BookList([book as Book]);
-              } else {
-                return const Text('No book');
-              }
-            }),
-          )
-        ]),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              HomeCard(
+                  iconData: Icons.create,
+                  text: 'Add new book',
+                  route: '/add-book'),
+              HomeCard(
+                  iconData: Icons.library_books,
+                  text: 'Open your library',
+                  route: '/library'),
+              HomeCard(
+                  iconData: Icons.settings,
+                  text: 'Open Settings',
+                  route: '/settings')
+            ]),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
