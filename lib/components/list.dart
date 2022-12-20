@@ -8,7 +8,7 @@ class BookList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
         children: List.generate(
             books.length,
             (index) => ListTile(
