@@ -20,8 +20,11 @@ class PageLayout extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      drawer: NavDrawer(
-        context: context,
+      drawer: SizedBox(
+        width: MediaQuery.of(context).size.width / 3 * 2,
+        child: NavDrawer(
+          context: context,
+        ),
       ),
       body: body,
       floatingActionButton: floatingActionButton,

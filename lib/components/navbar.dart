@@ -11,9 +11,11 @@ class NavDrawer extends Drawer {
               children: [
                 const DrawerHeader(
                   decoration: BoxDecoration(color: Colors.blue),
-                  child: Text(
-                    'Menu',
-                    style: TextStyle(fontSize: 30, color: Colors.white),
+                  child: Center(
+                    child: Text(
+                      'Menu',
+                      style: TextStyle(fontSize: 30, color: Colors.white),
+                    ),
                   ),
                 ),
                 ListTile(
