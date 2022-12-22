@@ -29,9 +29,9 @@ class _NewBookPAgeState extends State<NewBookPage> {
 
   @override
   void dispose() {
-    formControllers.values.forEach((controller) {
+    for (var controller in formControllers.values) {
       controller.dispose();
-    });
+    }
     super.dispose();
   }
 
@@ -59,9 +59,9 @@ class _NewBookPAgeState extends State<NewBookPage> {
     Database db = await connectToDatabase();
     await SQLiteShelf(db).addBook(book);
 
-    formControllers.values.forEach((controller) {
+    for (var controller in formControllers.values) {
       controller.clear();
-    });
+    }
   }
 
   @override
