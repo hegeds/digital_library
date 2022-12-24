@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:private_library/pages/library.dart';
-import 'package:private_library/pages/settings.dart';
 
-import 'pages/home.dart';
-import 'pages/settings.dart';
 import 'pages/create.dart';
+import 'pages/home.dart';
+import 'pages/library.dart';
+import 'pages/settings.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,7 +24,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const HomePage(),
         '/settings': (context) => const SettingsPage(),
         '/library': (context) => const LibraryPage(),
-        '/add-book': (context) => NewBookPage(),
+        '/add-book': (context) => const NewBookPage(),
       },
     );
   }

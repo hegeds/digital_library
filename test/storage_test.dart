@@ -3,16 +3,16 @@ import 'package:test/test.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 import 'package:mockito/mockito.dart';
 
-import 'package:private_library/model.dart' as models;
 import 'package:private_library/storage.dart' as storage;
 
 import './storage_test.mocks.dart' as mocks;
+import 'fixtures.dart';
 
 @GenerateMocks([sqflite.Database])
 void main() {
   final database = mocks.MockDatabase();
-  final book1 = models.Book('1', 'Some Person', 'Awesome book', 1989);
-  final book2 = models.Book('2', 'Other Person', 'Bad book', 1999);
+  final book1 = generateBook();
+  final book2 = generateBook();
 
   group('SQLite database', () {
     test('should be able to fetch books', () async {

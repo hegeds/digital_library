@@ -9,23 +9,19 @@ import 'package:private_library/api.dart';
 import 'package:private_library/model.dart';
 
 import 'api_test.mocks.dart' as mocks;
+import 'fixtures.dart';
 
 @GenerateMocks([http.Client])
 void main() {
   group('GoogleBooksAPI', () {
-    var isbn = "987654321";
+    var book = generateBook();
     var url = Uri(
         scheme: 'https',
         host: 'www.googleapis.com',
         path: 'books/v1/volumes',
-        query: 'q=isbn:$isbn');
+        query: 'q=isbn:${book.isbn}');
 
     test('should be able to fetch book', () async {
-      var title = 'This is a book title';
-      var author = 'Author von Authorious';
-      var published = 1991;
-      var expectedBook = Book(isbn, author, title, published);
-
       final client = mocks.MockClient();
 
       var responseBody = {
@@ -33,9 +29,9 @@ void main() {
         "items": [
           {
             "volumeInfo": {
-              "authors": [author],
-              "title": title,
-              "publishedDate": '$published'
+              "authors": [book.author],
+              "title": book.title,
+              "publishedDate": '${book.published}'
             },
           }
         ],
@@ -45,10 +41,10 @@ void main() {
         (_) async => http.Response(jsonEncode(responseBody), 200),
       );
 
-      var actualBook = await fetchBookFromGoogle(isbn, client: client);
+      var actualBook = await fetchBookFromGoogle(book.isbn, client: client);
 
       expect(actualBook, isA<Book>());
-      expect('$actualBook', '$expectedBook');
+      expect('$actualBook', '$book');
     });
 
     for (var count in [0, 2]) {
@@ -62,7 +58,7 @@ void main() {
           (_) async => http.Response(jsonEncode(responseBody), 200),
         );
 
-        var actualBook = await fetchBookFromGoogle(isbn, client: client);
+        var actualBook = await fetchBookFromGoogle(book.isbn, client: client);
 
         expect(actualBook, null);
       });
