@@ -18,7 +18,9 @@ jobs:
           version: 3.0.5
 
       - name: Install dependencies
-        run: flutter pub get
+        run: |
+          flutter pub get;
+          flutter pub run build_runner build;
 
       - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed .
