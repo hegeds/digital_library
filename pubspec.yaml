@@ -1,5 +1,5 @@
-name: private_library
-description: A new Flutter project.
+name: digital_library
+description: Free open source flutter app to keep track of your personal books.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.

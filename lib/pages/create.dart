@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'package:private_library/components/page_layout.dart';
-import 'package:private_library/api.dart';
-import 'package:private_library/model.dart';
-import 'package:private_library/database.dart';
-import 'package:private_library/storage.dart';
+import 'package:digital_library/components/page_layout.dart';
+import 'package:digital_library/api.dart';
+import 'package:digital_library/model.dart';
+import 'package:digital_library/database.dart';
+import 'package:digital_library/storage.dart';
 
 class NewBookPage extends StatefulWidget {
   const NewBookPage({Key? key}) : super(key: key);
