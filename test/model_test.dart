@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
 
-import 'package:private_library/model.dart';
+import 'package:digital_library/model.dart';
 
 void main() {
   var isbn = "987654321";

@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 import 'package:mockito/mockito.dart';
 
-import 'package:private_library/storage.dart' as storage;
+import 'package:digital_library/storage.dart' as storage;
 
 import './storage_test.mocks.dart' as mocks;
 import 'fixtures.dart';

@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:excel_dart/excel_dart.dart';
 import 'package:test/test.dart';
 
-import 'package:private_library/exporter.dart';
-import 'package:private_library/model.dart';
+import 'package:digital_library/exporter.dart';
+import 'package:digital_library/model.dart';
 
 import 'fixtures.dart';
 

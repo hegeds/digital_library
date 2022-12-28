@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:private_library/model.dart';
+import 'package:digital_library/model.dart';
 
 String generateID() {
   var codeUnits = List.generate(8, (index) => Random().nextInt(33) + 89);

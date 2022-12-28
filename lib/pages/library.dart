@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
 
-import 'package:private_library/components/page_layout.dart';
-import 'package:private_library/database.dart';
-import 'package:private_library/exporter.dart';
-import 'package:private_library/model.dart';
-import 'package:private_library/storage.dart';
-import 'package:private_library/components/list.dart';
+import 'package:digital_library/components/page_layout.dart';
+import 'package:digital_library/database.dart';
+import 'package:digital_library/exporter.dart';
+import 'package:digital_library/model.dart';
+import 'package:digital_library/storage.dart';
+import 'package:digital_library/components/list.dart';
 
 class LibraryPage extends StatefulWidget {
   const LibraryPage({Key? key}) : super(key: key);

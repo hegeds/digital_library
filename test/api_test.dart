@@ -5,8 +5,8 @@ import 'package:test/test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 
-import 'package:private_library/api.dart';
-import 'package:private_library/model.dart';
+import 'package:digital_library/api.dart';
+import 'package:digital_library/model.dart';
 
 import 'api_test.mocks.dart' as mocks;
 import 'fixtures.dart';

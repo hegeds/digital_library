@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.private_library">
+    package="com.example.digital_library">
    <application
-        android:label="private_library"
+        android:label="Digital library"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
