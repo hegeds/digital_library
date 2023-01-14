@@ -18,8 +18,8 @@ Future<Book?> fetchBookFromGoogle(String isbn, {Client? client}) async {
     var volumeInfo = body['items'][0]['volumeInfo'];
     String publishedInfo = volumeInfo['publishedDate'];
     var publishedYear = publishedInfo.split("-")[0];
-    return Book(isbn, volumeInfo['authors'][0], volumeInfo['title'],
-        int.parse(publishedYear));
+    var authors = List<String>.from(volumeInfo['authors']);
+    return Book(isbn, authors, volumeInfo['title'], int.parse(publishedYear));
   } else {
     return null;
   }

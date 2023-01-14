@@ -28,6 +28,6 @@ int generatePublishYear() {
 }
 
 Book generateBook() {
-  return Book(
-      generateISBN(), generateTitle(), generateTitle(), generatePublishYear());
+  return Book(generateISBN(), [generateAuthor(), generateAuthor()],
+      generateTitle(), generatePublishYear());
 }

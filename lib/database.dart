@@ -25,11 +25,16 @@ const migrations = [
     'CREATE TABLE books(isbn TEXT PRIMARY KEY, author TEXT, title TEXT, published INTEGER);'
   ], [
     'DROP TABLE books;'
+  ]),
+  Migration([
+    'ALTER TABLE books RENAME COLUMN author TO authors;',
+  ], [
+    'ALTER TABLE books RENAME COLUMN authors TO author;',
   ])
 ];
 
 Future<Database> connectToDatabase(
-    {int version = 1,
+    {int version = 2,
     List<Migration> migrations = migrations,
     bool isInMemory = false}) async {
   var dbPath = join(await getDatabasesPath(), 'library.db');
