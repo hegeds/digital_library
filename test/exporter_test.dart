@@ -21,7 +21,7 @@ void main() {
       expect(filePath.split('/').last, 'library_export.xlsx');
       expect(sheet.cell(CellIndex.indexByString('A1')).value, 'ISBN');
       expect(sheet.cell(CellIndex.indexByString('B1')).value, 'Title');
-      expect(sheet.cell(CellIndex.indexByString('C1')).value, 'Author');
+      expect(sheet.cell(CellIndex.indexByString('C1')).value, 'Authors');
       expect(sheet.cell(CellIndex.indexByString('D1')).value, 'Published year');
 
       for (var index = 0; index < books.length; index++) {
@@ -30,7 +30,8 @@ void main() {
 
         expect(sheet.cell(CellIndex.indexByString('A$row')).value, book.isbn);
         expect(sheet.cell(CellIndex.indexByString('B$row')).value, book.title);
-        expect(sheet.cell(CellIndex.indexByString('C$row')).value, book.author);
+        expect(sheet.cell(CellIndex.indexByString('C$row')).value,
+            book.getAuthorsAsString());
         expect(
             sheet.cell(CellIndex.indexByString('D$row')).value, book.published);
       }

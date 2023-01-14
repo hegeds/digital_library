@@ -12,24 +12,22 @@ class NewBookPage extends StatefulWidget {
   const NewBookPage({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _NewBookPAgeState();
+  State<StatefulWidget> createState() => _NewBookPageState();
 }
 
-class _NewBookPAgeState extends State<NewBookPage> {
-  _NewBookPAgeState() {
-    formControllers = {
-      'isbn': TextEditingController(),
-      'author': TextEditingController(),
-      'title': TextEditingController(),
-      'published': TextEditingController(),
-    };
-  }
-
-  Map<String, TextEditingController> formControllers = {};
+class _NewBookPageState extends State<NewBookPage> {
+  var isbnController = TextEditingController();
+  var titleController = TextEditingController();
+  var publishYearController = TextEditingController();
+  var authorControllers = [TextEditingController()];
 
   @override
   void dispose() {
-    for (var controller in formControllers.values) {
+    isbnController.dispose();
+    titleController.dispose();
+    publishYearController.dispose();
+
+    for (var controller in authorControllers) {
       controller.dispose();
     }
     super.dispose();
@@ -42,26 +40,44 @@ class _NewBookPAgeState extends State<NewBookPage> {
     var fetchedBook = await fetchBookFromGoogle(barCode);
     if (fetchedBook != null) {
       setState(() {
-        formControllers['isbn']!.text = fetchedBook.isbn;
-        formControllers['author']!.text = fetchedBook.author;
-        formControllers['title']!.text = fetchedBook.title;
-        formControllers['published']!.text = fetchedBook.published.toString();
+        isbnController.text = fetchedBook.isbn;
+        titleController.text = fetchedBook.title;
+        publishYearController.text = '${fetchedBook.published}';
+
+        authorControllers = fetchedBook.authors
+            .map((author) => TextEditingController(text: author))
+            .toList();
       });
     }
   }
 
   void _createBook() async {
     Book book = Book(
-        formControllers['isbn']!.text,
-        formControllers['author']!.text,
-        formControllers['title']!.text,
-        int.parse(formControllers['published']!.text));
+        isbnController.text,
+        authorControllers.map((controller) => controller.text).toList(),
+        titleController.text,
+        int.parse(publishYearController.text));
     Database db = await connectToDatabase();
     await SQLiteShelf(db).addBook(book);
 
-    for (var controller in formControllers.values) {
+    isbnController.clear();
+    titleController.clear();
+    publishYearController.clear();
+    for (var controller in authorControllers) {
       controller.clear();
     }
+  }
+
+  void _removeAuthorInput(TextEditingController controller) {
+    setState(() {
+      authorControllers.remove(controller);
+    });
+  }
+
+  void _addNewAuthorInput() {
+    setState(() {
+      authorControllers.add(TextEditingController());
+    });
   }
 
   @override
@@ -75,26 +91,60 @@ class _NewBookPAgeState extends State<NewBookPage> {
       ),
       body: Container(
           padding: const EdgeInsets.all(40.0),
-          child: Column(
+          child: ListView(
             children: [
               TextField(
                 decoration: const InputDecoration(label: Text('ISBN number')),
-                controller: formControllers['isbn'],
+                controller: isbnController,
                 keyboardType: TextInputType.number,
               ),
               TextField(
-                decoration: const InputDecoration(label: Text('Author')),
-                controller: formControllers['author'],
-              ),
-              TextField(
                 decoration: const InputDecoration(label: Text('Title')),
-                controller: formControllers['title'],
+                controller: titleController,
               ),
               TextField(
                 decoration:
                     const InputDecoration(label: Text('Year of publish')),
-                controller: formControllers['published'],
+                controller: publishYearController,
                 keyboardType: TextInputType.number,
+              ),
+              ...List<Widget>.from(authorControllers.map((controller) {
+                return Row(children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width -
+                        MediaQuery.of(context).size.width / 3,
+                    child: TextField(
+                      decoration: const InputDecoration(label: Text('Author')),
+                      controller: controller,
+                    ),
+                  ),
+                  IconButton(
+                      alignment: Alignment.bottomRight,
+                      iconSize: 30,
+                      onPressed: () {
+                        _removeAuthorInput(controller);
+                      },
+                      icon: const Icon(Icons.remove_circle))
+                ]);
+              })),
+              Row(
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width -
+                        MediaQuery.of(context).size.width / 3,
+                    child: const Text(
+                      style: TextStyle(fontSize: 16.0),
+                      'Add author',
+                    ),
+                  ),
+                  IconButton(
+                      alignment: Alignment.bottomRight,
+                      iconSize: 30,
+                      onPressed: () {
+                        _addNewAuthorInput();
+                      },
+                      icon: const Icon(Icons.add_circle)),
+                ],
               ),
               ElevatedButton(
                   onPressed: () => {_createBook()}, child: const Text('Save')),

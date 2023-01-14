@@ -17,7 +17,7 @@ class BookList extends StatelessWidget {
                   child: Text(books[index].title[0]),
                 ),
                 title: Text(books[index].title),
-                subtitle: Text(books[index].author),
+                subtitle: Text(books[index].getAuthorsAsString()),
                 trailing: const Icon(Icons.info_outline))));
   }
 }

@@ -13,9 +13,14 @@ Future<String?> generateLibraryExport(List<Book> books) async {
   Excel excel = Excel.createExcel();
   Sheet sheet = excel['Sheet1'];
 
-  sheet.appendRow(['ISBN', 'Title', 'Author', 'Published year']);
+  sheet.appendRow(['ISBN', 'Title', 'Authors', 'Published year']);
   for (Book book in books) {
-    var bookRow = [book.isbn, book.title, book.author, book.published];
+    var bookRow = [
+      book.isbn,
+      book.title,
+      book.getAuthorsAsString(),
+      book.published
+    ];
     sheet.appendRow(bookRow);
   }
 

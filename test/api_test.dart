@@ -29,7 +29,7 @@ void main() {
         "items": [
           {
             "volumeInfo": {
-              "authors": [book.author],
+              "authors": book.authors,
               "title": book.title,
               "publishedDate": '${book.published}'
             },

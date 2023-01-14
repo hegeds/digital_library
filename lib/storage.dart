@@ -51,7 +51,7 @@ class SQLiteShelf implements BookShelf {
   Book _transformQueryResultToBook(Map<String, dynamic> result) {
     return Book(
       result['isbn'],
-      result['author'],
+      result['authors'].split(';'),
       result['title'],
       result['published'],
     );
