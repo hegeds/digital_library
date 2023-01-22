@@ -21,6 +21,20 @@ class _NewBookPageState extends State<NewBookPage> {
   var publishYearController = TextEditingController();
   var authorControllers = [TextEditingController()];
 
+  List<String> enabledAPIs = [];
+  Map<String, FetchBook> apiByName = {
+    'google': fetchBookFromGoogle,
+  };
+
+  _NewBookPageState() {
+    connectToDatabase().then((db) {
+      var configStore = SQLiteConfigStore(db);
+      configStore.retrieveConfig('enabledAPIs').then((fetchedAPIs) {
+        enabledAPIs = List<String>.from(fetchedAPIs);
+      });
+    });
+  }
+
   @override
   void dispose() {
     isbnController.dispose();
@@ -33,13 +47,26 @@ class _NewBookPageState extends State<NewBookPage> {
     super.dispose();
   }
 
+  Future<Book?> _getBookFromAPIs(String isbn) async {
+    Book? fetchedBook;
+    for (var apiName in enabledAPIs) {
+      var api = apiByName[apiName];
+      if (api == null) return null;
+
+      fetchedBook = await api(isbn);
+      if (fetchedBook != null) break;
+    }
+
+    return fetchedBook;
+  }
+
   void _scanBarcode() async {
     var barCode = await FlutterBarcodeScanner.scanBarcode(
         'blue', 'cancel', true, ScanMode.BARCODE);
 
-    var fetchedBook = await fetchBookFromGoogle(barCode);
-    if (fetchedBook != null) {
-      setState(() {
+    var fetchedBook = await _getBookFromAPIs(barCode);
+    setState(() {
+      if (fetchedBook != null) {
         isbnController.text = fetchedBook.isbn;
         titleController.text = fetchedBook.title;
         publishYearController.text = '${fetchedBook.published}';
@@ -47,8 +74,8 @@ class _NewBookPageState extends State<NewBookPage> {
         authorControllers = fetchedBook.authors
             .map((author) => TextEditingController(text: author))
             .toList();
-      });
-    }
+      }
+    });
   }
 
   void _createBook() async {

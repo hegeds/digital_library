@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:sqflite/sqflite.dart';
 
 import './model.dart';
@@ -55,5 +57,44 @@ class SQLiteShelf implements BookShelf {
       result['title'],
       result['published'],
     );
+  }
+}
+
+class ConfigStore {
+  Future<dynamic> retrieveConfig(String key) {
+    throw UnimplementedError();
+  }
+
+  Future<void> saveConfig(String key, dynamic value) {
+    throw UnimplementedError();
+  }
+}
+
+class SQLiteConfigStore implements ConfigStore {
+  final Database _database;
+
+  SQLiteConfigStore(this._database);
+
+  @override
+  Future retrieveConfig(String key) async {
+    final List<Map<String, dynamic>> queryResults = await _database
+        .query('configs', where: 'key = ?', whereArgs: [key], limit: 1);
+    if (queryResults.isEmpty) {
+      return null;
+    }
+    return jsonDecode(queryResults[0]['value']);
+  }
+
+  @override
+  Future<void> saveConfig(String key, value) async {
+    var rawValue = jsonEncode(value);
+
+    if (await retrieveConfig(key) != null) {
+      await _database.update('configs', {'key': key, 'value': rawValue},
+          where: 'key = ?', whereArgs: [key]);
+      return;
+    }
+
+    await _database.insert('configs', {'key': key, 'value': rawValue});
   }
 }

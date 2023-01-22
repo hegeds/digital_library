@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:mockito/annotations.dart';
 import 'package:test/test.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
@@ -53,13 +55,81 @@ void main() {
       expect(queriedBook, null);
     });
 
-    test('should be able to store book', () async {
+    test('should overwrite exsistent config', () async {
       when(database.insert('books', book1.toMap())).thenAnswer((_) async => 1);
 
       var store = storage.SQLiteShelf(database);
       store.addBook(book1);
 
       verify(database.insert('books', book1.toMap()));
+    });
+  });
+
+  group('SQLite config store', () {
+    var testConfig = {
+      'key': 'key',
+      'value': jsonEncode(['value']),
+    };
+
+    test('should be able to retrieve config', () async {
+      var fetchedKey = 'key';
+
+      when(database.query('configs',
+              where: 'key = ?', whereArgs: [fetchedKey], limit: 1))
+          .thenAnswer((_) async => [testConfig]);
+
+      var configStore = storage.SQLiteConfigStore(database);
+      var value = await configStore.retrieveConfig(fetchedKey);
+
+      expect(value, jsonDecode(testConfig['value'] as String));
+    });
+
+    test('should return null if no such config', () async {
+      var nonExsistent = 'non-exsistent-key';
+
+      when(database.query('configs',
+              where: 'key = ?', whereArgs: [nonExsistent], limit: 1))
+          .thenAnswer((_) async => []);
+
+      var configStore = storage.SQLiteConfigStore(database);
+      var value = await configStore.retrieveConfig(nonExsistent);
+
+      expect(value, null);
+    });
+
+    test('should overwrite exsisting config', () async {
+      var fetchedKey = 'key';
+      var updatedConfig = {
+        'key': 'key',
+        'value': jsonEncode([]),
+      };
+
+      when(database.query('configs',
+              where: 'key = ?', whereArgs: [fetchedKey], limit: 1))
+          .thenAnswer((_) async => [testConfig]);
+      when(database.update('configs', updatedConfig,
+          where: 'key = ?',
+          whereArgs: [fetchedKey])).thenAnswer((_) async => 1);
+
+      var configStore = storage.SQLiteConfigStore(database);
+      await configStore.saveConfig(fetchedKey, []);
+    });
+
+    test('should create non exsistent config', () async {
+      var fetchedKey = 'key';
+      var updatedConfig = {
+        'key': 'key',
+        'value': jsonEncode([]),
+      };
+
+      when(database.query('configs',
+              where: 'key = ?', whereArgs: [fetchedKey], limit: 1))
+          .thenAnswer((_) async => []);
+      when(database.insert('configs', updatedConfig))
+          .thenAnswer((_) async => 1);
+
+      var configStore = storage.SQLiteConfigStore(database);
+      await configStore.saveConfig(fetchedKey, []);
     });
   });
 }
