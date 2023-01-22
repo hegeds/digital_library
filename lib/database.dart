@@ -30,11 +30,17 @@ const migrations = [
     'ALTER TABLE books RENAME COLUMN author TO authors;',
   ], [
     'ALTER TABLE books RENAME COLUMN authors TO author;',
+  ]),
+  Migration([
+    'CREATE TABLE configs(key TEXT PRIMARY KEY, value TEXT);',
+    'INSERT INTO configs (key, value) VALUES ("enabledAPIs", \'["google"]\');'
+  ], [
+    'DROP TABLE configs;',
   ])
 ];
 
 Future<Database> connectToDatabase(
-    {int version = 2,
+    {int version = 3,
     List<Migration> migrations = migrations,
     bool isInMemory = false}) async {
   var dbPath = join(await getDatabasesPath(), 'library.db');

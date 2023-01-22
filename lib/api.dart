@@ -3,6 +3,8 @@ import 'package:http/http.dart';
 
 import './model.dart';
 
+typedef FetchBook = Future<Book?> Function(String isbn);
+
 Future<Book?> fetchBookFromGoogle(String isbn, {Client? client}) async {
   client ??= Client();
 
