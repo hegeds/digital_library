@@ -24,6 +24,7 @@ class _NewBookPageState extends State<NewBookPage> {
   List<String> enabledAPIs = [];
   Map<String, FetchBook> apiByName = {
     'google': fetchBookFromGoogle,
+    'open-library': fetchBookFromOpenLibrary,
   };
 
   _NewBookPageState() {

@@ -56,6 +56,13 @@ class _SettingsPageState extends State<SettingsPage> {
               modifyAPIs('google', value);
             },
             value: enabledAPIs.contains('google'),
+          ),
+          CheckboxListTile(
+            title: const Text('Enable Open Library API'),
+            onChanged: (bool? value) {
+              modifyAPIs('google', value);
+            },
+            value: enabledAPIs.contains('open-library'),
           )
         ],
       ),
