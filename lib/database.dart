@@ -36,11 +36,16 @@ const migrations = [
     'INSERT INTO configs (key, value) VALUES ("enabledAPIs", \'["google"]\');'
   ], [
     'DROP TABLE configs;',
+  ]),
+  Migration([
+    'UPDATE configs SET value=\'["google", "open-library"]\' WHERE key="enabledAPIs";'
+  ], [
+    'UPDATE configs SET value=\'["google", "google"]\' WHERE key="enabledAPIs";'
   ])
 ];
 
 Future<Database> connectToDatabase(
-    {int version = 3,
+    {int version = 4,
     List<Migration> migrations = migrations,
     bool isInMemory = false}) async {
   var dbPath = join(await getDatabasesPath(), 'library.db');
