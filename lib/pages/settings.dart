@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqlite_api.dart';
 
 import 'package:digital_library/components/page_layout.dart';
-import 'package:digital_library/database.dart';
 import 'package:digital_library/storage.dart';
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+  final Database db;
+
+  const SettingsPage(this.db, {Key? key}) : super(key: key);
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -15,14 +17,14 @@ class _SettingsPageState extends State<SettingsPage> {
   late ConfigStore configStore;
   List<String> enabledAPIs = [];
 
-  _SettingsPageState() {
-    connectToDatabase().then((db) {
-      configStore = SQLiteConfigStore(db);
+  @override
+  void initState() {
+    super.initState();
+    configStore = SQLiteConfigStore(widget.db);
 
-      configStore.retrieveConfig('enabledAPIs').then((fetchedAPIs) {
-        setState(() {
-          enabledAPIs = List<String>.from(fetchedAPIs);
-        });
+    configStore.retrieveConfig('enabledAPIs').then((fetchedAPIs) {
+      setState(() {
+        enabledAPIs = List<String>.from(fetchedAPIs);
       });
     });
   }
@@ -60,7 +62,7 @@ class _SettingsPageState extends State<SettingsPage> {
           CheckboxListTile(
             title: const Text('Enable Open Library API'),
             onChanged: (bool? value) {
-              modifyAPIs('google', value);
+              modifyAPIs('open-library', value);
             },
             value: enabledAPIs.contains('open-library'),
           )
