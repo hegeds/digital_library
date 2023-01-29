@@ -1,4 +1,6 @@
+import 'package:digital_library/database.dart';
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
 
 import 'pages/create.dart';
 import 'pages/home.dart';
@@ -6,11 +8,15 @@ import 'pages/library.dart';
 import 'pages/settings.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  connectToDatabase().then((db) {
+    runApp(MyApp(db));
+  });
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final Database db;
+  const MyApp(this.db, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +28,9 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const HomePage(),
-        '/settings': (context) => const SettingsPage(),
-        '/library': (context) => const LibraryPage(),
-        '/add-book': (context) => const NewBookPage(),
+        '/settings': (context) => SettingsPage(db),
+        '/library': (context) => LibraryPage(db),
+        '/add-book': (context) => NewBookPage(db),
       },
     );
   }

@@ -5,11 +5,12 @@ import 'package:sqflite/sqflite.dart';
 import 'package:digital_library/components/page_layout.dart';
 import 'package:digital_library/api.dart';
 import 'package:digital_library/model.dart';
-import 'package:digital_library/database.dart';
 import 'package:digital_library/storage.dart';
 
 class NewBookPage extends StatefulWidget {
-  const NewBookPage({Key? key}) : super(key: key);
+  final Database db;
+
+  const NewBookPage(this.db, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _NewBookPageState();
@@ -27,12 +28,12 @@ class _NewBookPageState extends State<NewBookPage> {
     'open-library': fetchBookFromOpenLibrary,
   };
 
-  _NewBookPageState() {
-    connectToDatabase().then((db) {
-      var configStore = SQLiteConfigStore(db);
-      configStore.retrieveConfig('enabledAPIs').then((fetchedAPIs) {
-        enabledAPIs = List<String>.from(fetchedAPIs);
-      });
+  @override
+  void initState() {
+    super.initState();
+    var configStore = SQLiteConfigStore(widget.db);
+    configStore.retrieveConfig('enabledAPIs').then((fetchedAPIs) {
+      enabledAPIs = List<String>.from(fetchedAPIs);
     });
   }
 
@@ -85,8 +86,7 @@ class _NewBookPageState extends State<NewBookPage> {
         authorControllers.map((controller) => controller.text).toList(),
         titleController.text,
         int.parse(publishYearController.text));
-    Database db = await connectToDatabase();
-    await SQLiteShelf(db).addBook(book);
+    await SQLiteShelf(widget.db).addBook(book);
 
     isbnController.clear();
     titleController.clear();
