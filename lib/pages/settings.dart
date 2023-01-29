@@ -46,6 +46,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return PageLayout(
       title: 'Settings',
+      page: '/settings',
       body: Column(
         children: [
           const ListTile(

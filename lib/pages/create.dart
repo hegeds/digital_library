@@ -112,6 +112,7 @@ class _NewBookPageState extends State<NewBookPage> {
   Widget build(BuildContext context) {
     return PageLayout(
       title: 'Add new book',
+      page: '/add-book',
       floatingActionButton: FloatingActionButton(
         onPressed: _scanBarcode,
         tooltip: 'Scan book',

@@ -1,51 +1,41 @@
 import 'package:flutter/material.dart';
 
-class NavDrawer extends Drawer {
-  final BuildContext context;
+class Navbar extends StatelessWidget {
+  static const pages = ['/', '/add-book', '/library', '/settings'];
+  final String currentRoute;
 
-  NavDrawer({Key? key, required this.context})
-      : super(
-            key: key,
-            child: ListView(
-              primary: true,
-              children: [
-                const DrawerHeader(
-                  decoration: BoxDecoration(color: Colors.blue),
-                  child: Center(
-                    child: Text(
-                      'Menu',
-                      style: TextStyle(fontSize: 30, color: Colors.white),
-                    ),
-                  ),
-                ),
-                ListTile(
-                  leading: const Icon(Icons.home),
-                  title: const Text('Home'),
-                  onTap: () {
-                    Navigator.pushNamed(context, '/');
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.settings),
-                  title: const Text('Settings'),
-                  onTap: () {
-                    Navigator.pushNamed(context, '/settings');
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.library_books),
-                  title: const Text('Library'),
-                  onTap: () {
-                    Navigator.pushNamed(context, '/library');
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.create),
-                  title: const Text('Add book'),
-                  onTap: () {
-                    Navigator.pushNamed(context, '/add-book');
-                  },
-                ),
-              ],
-            ));
+  const Navbar(this.currentRoute, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_box),
+            label: 'Add book',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.library_books),
+            label: 'Library',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
+        currentIndex: pages.indexOf(currentRoute),
+        unselectedItemColor: Colors.blueGrey,
+        selectedItemColor: Colors.blue,
+        showUnselectedLabels: true,
+        selectedFontSize: 12.0,
+        unselectedFontSize: 12.0,
+        type: BottomNavigationBarType.fixed,
+        onTap: (index) {
+          Navigator.pushNamed(context, pages[index]);
+        });
+  }
 }
