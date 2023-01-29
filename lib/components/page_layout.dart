@@ -4,6 +4,7 @@ import './navbar.dart';
 
 class PageLayout extends StatelessWidget {
   final String title;
+  final String page;
   final Widget body;
   final FloatingActionButton? floatingActionButton;
 
@@ -11,6 +12,7 @@ class PageLayout extends StatelessWidget {
       {Key? key,
       required this.title,
       required this.body,
+      required this.page,
       this.floatingActionButton})
       : super(key: key);
 
@@ -20,12 +22,7 @@ class PageLayout extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      drawer: SizedBox(
-        width: MediaQuery.of(context).size.width / 3 * 2,
-        child: NavDrawer(
-          context: context,
-        ),
-      ),
+      bottomNavigationBar: Navbar(page),
       body: body,
       floatingActionButton: floatingActionButton,
     );

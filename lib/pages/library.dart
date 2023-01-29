@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
 
 import 'package:digital_library/components/page_layout.dart';
-import 'package:digital_library/database.dart';
 import 'package:digital_library/exporter.dart';
 import 'package:digital_library/model.dart';
 import 'package:digital_library/storage.dart';
@@ -40,6 +39,7 @@ class _LibraryPageState extends State<LibraryPage> {
   Widget build(BuildContext context) {
     return PageLayout(
       title: 'Library',
+      page: '/library',
       body: Center(
         child: BookList(books),
       ),

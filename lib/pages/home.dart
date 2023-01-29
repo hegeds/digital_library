@@ -9,7 +9,8 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PageLayout(
-      title: 'Home',
+      title: 'Digital Library',
+      page: '/',
       body: Center(
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
