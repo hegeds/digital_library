@@ -31,7 +31,7 @@ class SQLiteShelf implements BookShelf {
   @override
   Future<Book?> retrieveBook(String isbn) async {
     final List<Map<String, dynamic>> queryResults = await _database
-        .query('books', where: 'id = ?', whereArgs: [isbn], limit: 1);
+        .query('books', where: 'isbn = ?', whereArgs: [isbn], limit: 1);
 
     if (queryResults.isEmpty) {
       return null;
