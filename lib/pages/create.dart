@@ -17,6 +17,8 @@ class NewBookPage extends StatefulWidget {
 }
 
 class _NewBookPageState extends State<NewBookPage> {
+  Widget floatingButtonContent = const Icon(Icons.camera);
+
   var isbnController = TextEditingController();
   var titleController = TextEditingController();
   var publishYearController = TextEditingController();
@@ -62,9 +64,14 @@ class _NewBookPageState extends State<NewBookPage> {
     return fetchedBook;
   }
 
-  void _scanBarcode() async {
+  Future<Book?> _fetchBookFromBarcode() async {
     var barCode = await FlutterBarcodeScanner.scanBarcode(
         'blue', 'cancel', true, ScanMode.BARCODE);
+    setState(() {
+      floatingButtonContent = const CircularProgressIndicator(
+        backgroundColor: Colors.white,
+      );
+    });
 
     var fetchedBook = await _getBookFromAPIs(barCode);
     setState(() {
@@ -77,7 +84,9 @@ class _NewBookPageState extends State<NewBookPage> {
             .map((author) => TextEditingController(text: author))
             .toList();
       }
+      floatingButtonContent = const Icon(Icons.camera);
     });
+    return fetchedBook;
   }
 
   void _createBook() async {
@@ -113,11 +122,6 @@ class _NewBookPageState extends State<NewBookPage> {
     return PageLayout(
       title: 'Add new book',
       page: '/add-book',
-      floatingActionButton: FloatingActionButton(
-        onPressed: _scanBarcode,
-        tooltip: 'Scan book',
-        child: const Icon(Icons.camera),
-      ),
       body: Container(
           padding: const EdgeInsets.all(40.0),
           child: ListView(
@@ -179,6 +183,19 @@ class _NewBookPageState extends State<NewBookPage> {
                   onPressed: () => {_createBook()}, child: const Text('Save')),
             ],
           )),
+      floatingActionButton: FloatingActionButton(
+          onPressed: (() {
+            if (floatingButtonContent is CircularProgressIndicator) return;
+
+            _fetchBookFromBarcode().then((book) {
+              if (book != null) return;
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content:
+                      Text('Configured APIs did not found the scanned book')));
+            });
+          }),
+          tooltip: 'Scan book',
+          child: floatingButtonContent),
     );
   }
 }
