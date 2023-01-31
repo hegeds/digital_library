@@ -10,7 +10,7 @@ on:
     paths: ['app/**']
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     defaults:
       run:
