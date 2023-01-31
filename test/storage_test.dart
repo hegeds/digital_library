@@ -33,7 +33,7 @@ void main() {
 
     test('should be able to fetch book', () async {
       when(database.query('books',
-              where: 'id = ?', whereArgs: [book1.isbn], limit: 1))
+              where: 'isbn = ?', whereArgs: [book1.isbn], limit: 1))
           .thenAnswer((_) async => [
                 book1.toMap(),
               ]);
@@ -46,7 +46,7 @@ void main() {
 
     test('should return null if book not found', () async {
       when(database.query('books',
-              where: 'id = ?', whereArgs: ['invalid-isbn'], limit: 1))
+              where: 'isbn = ?', whereArgs: ['invalid-isbn'], limit: 1))
           .thenAnswer((_) async => []);
 
       var store = storage.SQLiteShelf(database);

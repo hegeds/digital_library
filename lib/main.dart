@@ -1,4 +1,5 @@
 import 'package:digital_library/database.dart';
+import 'package:digital_library/pages/detail.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -26,11 +27,17 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       initialRoute: '/',
-      routes: {
-        '/': (context) => const HomePage(),
-        '/settings': (context) => SettingsPage(db),
-        '/library': (context) => LibraryPage(db),
-        '/add-book': (context) => NewBookPage(db),
+      onGenerateRoute: (settings) {
+        var routes = <String, WidgetBuilder>{
+          '/': (context) => const HomePage(),
+          '/settings': (context) => SettingsPage(db),
+          '/library': (context) => LibraryPage(db),
+          '/library/detail': (context) =>
+              BookDetail(db, (settings.arguments as List<String>)[0]),
+          '/add-book': (context) => NewBookPage(db),
+        };
+        WidgetBuilder builder = routes[settings.name]!;
+        return MaterialPageRoute(builder: (ctx) => builder(ctx));
       },
     );
   }

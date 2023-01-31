@@ -12,12 +12,15 @@ class BookList extends StatelessWidget {
         children: List.generate(
             books.length,
             (index) => ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: Colors.blue,
-                  child: Text(books[index].title[0]),
-                ),
-                title: Text(books[index].title),
-                subtitle: Text(books[index].getAuthorsAsString()),
-                trailing: const Icon(Icons.info_outline))));
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.blue,
+                    child: Text(books[index].title[0]),
+                  ),
+                  title: Text(books[index].title),
+                  subtitle: Text(books[index].getAuthorsAsString()),
+                  trailing: const Icon(Icons.info_outline),
+                  onTap: (() => Navigator.pushNamed(context, '/library/detail',
+                      arguments: [books[index].isbn])),
+                )));
   }
 }
