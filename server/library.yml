@@ -1,0 +1,6 @@
+services:
+  server:
+    image: digital_library
+    build: ./
+    ports:
+      - 8000:8000
