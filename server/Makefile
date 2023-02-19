@@ -4,7 +4,7 @@ test:
 
 .PHONY: serve
 serve:
-	pipenv run uvicorn src:app --port 8080 --reload
+	pipenv run uvicorn src:app --port 8008 --reload
 
 .PHONY: build
 build:
@@ -12,4 +12,17 @@ build:
 
 .PHONY: library-up
 library-up:
-	docker-compose -f ./library.yml up
+	docker-compose -f ./library.yml up -d
+
+
+.PHONY: library-down
+library-down:
+	docker-compose -f ./library.yml down
+
+.PHONY: db-up
+db-up:
+	docker-compose -f ./db.yml up -d
+
+.PHONY: db-down
+db-down:
+	docker-compose -f ./db.yml down

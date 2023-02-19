@@ -1,16 +1,12 @@
 services:
-  server:
-    image: digital_library
-    build: ./
-    ports:
-      - 8000:8000
-
   database:
     image: postgres
     environment:
       POSTGRES_USER: library_user
       POSTGRES_DB: library
-      POSTGRES_PASSWORD: admin
+      POSTGRES_PASSWORD: library_user
+    ports:
+      - 5432:5432
 
   adminer:
     image: adminer

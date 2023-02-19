@@ -2,6 +2,7 @@ import json
 
 from unittest.mock import MagicMock
 from http import HTTPStatus
+from fastapi.encoders import jsonable_encoder
 
 from src import Settings
 
@@ -17,7 +18,7 @@ class TestSearchBook:
 
         response = test_client.get(f"/books/search/{book.isbn}")
         assert response.status_code == HTTPStatus.OK
-        assert book.dict() == json.loads(response.read().decode())
+        assert jsonable_encoder(book) == json.loads(response.read().decode())
         mock_api.assert_called_once_with(book.isbn)
 
     def test_returns_not_found_when_book_can_not_be_fetched(
