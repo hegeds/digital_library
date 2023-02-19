@@ -6,11 +6,15 @@ name = "pypi"
 [packages]
 fastapi = "*"
 uvicorn = "*"
+sqlalchemy = "*"
+alembic = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 httpx = "*"
 pytest = "*"
 flake8 = "*"
+ipython = "*"
 
 [requires]
 python_version = "3.11"

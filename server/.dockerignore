@@ -1,3 +1,5 @@
 tests/
 Dockerfile
 README.md
+db.yml
+library.yml

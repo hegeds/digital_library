@@ -8,6 +8,7 @@ from .api import BOOK_APIS
 
 class Settings(BaseSettings):
     configured_apis = BOOK_APIS
+    database_url = "postgresql://library_user:library_user@127.0.0.1/library"
 
 
 settings = Settings()
