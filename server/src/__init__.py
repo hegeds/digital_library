@@ -17,7 +17,7 @@ app = FastAPI()
 
 @lru_cache()
 def get_settings():
-    return Settings()
+    return settings
 
 
 from .routes import *  # NOQA: F401 F403 E402

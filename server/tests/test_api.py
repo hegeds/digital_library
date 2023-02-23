@@ -19,7 +19,9 @@ class TestFetchFromGoogle:
             'items': [{
                 'volumeInfo': {
                     'title': self.book.title,
-                    'authors': self.book.authors,
+                    'authors': [
+                        {'name': author.name} for author in self.book.authors
+                    ],
                     'publishedDate': f'{self.book.published}-11-1'
                 }
             }]
@@ -32,8 +34,16 @@ class TestFetchFromGoogle:
             'https://www.googleapis.com',
             f'/books/v1/volumes?q=isbn:{self.book.isbn}'
         )
+
         request.urlopen.assert_called_once_with(expected_url)
-        assert self.book == fetched_book
+        assert fetched_book is not None
+        assert self.book.isbn == fetched_book.isbn
+        assert self.book.title == fetched_book.title
+        assert self.book.published == fetched_book.published
+        assert (
+            [author.name for author in self.book.authors]
+            == [author.name for author in fetched_book.authors]
+        )
 
     @pytest.mark.parametrize('itemCount', [0, 2])
     def test_returns_none_if_not_one_book_found(self, itemCount):

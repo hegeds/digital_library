@@ -1,6 +1,7 @@
 .PHONY: test
 test:
-	pipenv run pytest tests
+	DATABASE_URL="postgresql://library_user:library_user@127.0.0.1/library_test" \
+		pipenv run pytest tests
 
 .PHONY: serve
 serve:
