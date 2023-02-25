@@ -1,25 +1,21 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import relationship, sessionmaker, registry
+from sqlalchemy.orm import relationship, registry
 
-from src import get_settings, models
+from src import models
 
-
-settings = get_settings()
-engine = create_engine(
-    settings.database_url,  pool_pre_ping=True
-)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 mapper_registry = registry()
 
 from .tables import books, authors, books_authors_table  # NOQA: E402
 
-
 mapper_registry.map_imperatively(
     models.Book,
     books,
     properties={
-        'authors': relationship(models.Author, secondary=books_authors_table)
+        'authors': relationship(
+            models.Author,
+            secondary=books_authors_table,
+            lazy='joined'
+        )
     }
 )
 

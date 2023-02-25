@@ -2,7 +2,7 @@ import json
 
 from urllib import request, parse
 
-from src.models import Book
+from src.models import Book, Author
 
 
 def fetch_book_from_google(isbn: str):
@@ -19,7 +19,9 @@ def fetch_book_from_google(isbn: str):
     volume = response_data['items'][0]['volumeInfo']
 
     published = int(volume['publishedDate'].split('-')[0])
-    authors = volume['authors']
+    authors = [
+        Author(name=author_data['name']) for author_data in volume['authors']
+    ]
     title = volume['title']
 
     return Book(
