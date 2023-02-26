@@ -27,25 +27,26 @@ def settings_override():
 
 @pytest.fixture
 def database_engine():
-    return create_engine(
+    engine = create_engine(
         get_settings().database_url,
         pool_pre_ping=True
     )
 
+    mapper_registry.metadata.create_all(engine)
+
+    yield engine
+
+    close_all_sessions()
+    mapper_registry.metadata.drop_all(engine)
+
 
 @pytest.fixture
 def Session(database_engine):
-    mapper_registry.metadata.create_all(database_engine)
-
-    Session = sessionmaker(
+    return sessionmaker(
         autocommit=False,
         autoflush=False,
         bind=database_engine
     )
-    yield Session
-
-    close_all_sessions()
-    mapper_registry.metadata.drop_all(database_engine)
 
 
 @pytest.fixture
