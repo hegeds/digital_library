@@ -9,10 +9,12 @@ class SQLBookRepository(repositories.AbstractBookRepository):
         self.session = session
 
     def getById(self, id):
-        return self.session.query(models.Book).filter_by(id=id).one()
+        return self.session.query(models.Book).filter_by(id=id).one_or_none()
 
     def getByISBN(self, isbn: int):
-        return self.session.query(models.Book).filter_by(isbn=isbn).one()
+        return (
+            self.session.query(models.Book).filter_by(isbn=isbn).one_or_none()
+        )
 
     def getAll(self):
         return self.session.query(models.Book).all()

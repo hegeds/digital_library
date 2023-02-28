@@ -8,11 +8,11 @@ from src.models import Book
 class AbstractBookRepository(ABC):
 
     @abstractmethod
-    def getById(self, id: uuid.UUID) -> Book:
+    def getById(self, id: uuid.UUID) -> Book | None:
         raise NotImplementedError
 
     @abstractmethod
-    def getByISBN(self, isbn: int) -> Book:
+    def getByISBN(self, isbn: int) -> Book | None:
         raise NotImplementedError
 
     def getAll(self) -> list:

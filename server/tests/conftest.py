@@ -7,7 +7,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, close_all_sessions
 
 
-from src import app, Settings, get_settings
+from src import app, settings, get_configurations
+from src.base.repositories import AbstractBookRepository
+from src.base.uow import AbstractUnitOfWork
 from src.models import Author, Book
 from src.database import mapper_registry
 
@@ -19,8 +21,8 @@ def test_client():
 
 @pytest.fixture
 def settings_override():
-    def _(settings: Settings):
-        app.dependency_overrides[get_settings] = lambda: settings
+    def _(configurations: dict):
+        app.dependency_overrides[get_configurations] = lambda: configurations
 
     return _
 
@@ -28,7 +30,7 @@ def settings_override():
 @pytest.fixture
 def database_engine():
     engine = create_engine(
-        get_settings().database_url,
+        settings.database_url,
         pool_pre_ping=True
     )
 
@@ -107,3 +109,42 @@ def create_stored_book(create_book):
         return book
 
     return _
+
+
+@pytest.fixture
+def book_repository():
+    class TestBookRepository(AbstractBookRepository):
+        calls = []
+        result: Book | None = None
+        results: list = []
+
+        def getById(self, id):
+            self.calls.append(['getById', [id]])
+            return self.result
+
+        def getByISBN(self, isbn):
+            self.calls.append(['getByISBN', [isbn]])
+            return self.result
+
+        def getAll(self):
+            return self.results
+
+        def add(self, book):
+            self.calls.append(['add', [book]])
+
+    return TestBookRepository()
+
+
+@pytest.fixture
+def uow(book_repository):
+    class TestUnitOfWork(AbstractUnitOfWork):
+        books = book_repository
+        calls = []
+
+        def commit(self):
+            return self.calls.append(['commit'])
+
+        def rollback(self):
+            return self.calls.append(['rollback'])
+
+    return TestUnitOfWork()

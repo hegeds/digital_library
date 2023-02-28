@@ -20,7 +20,7 @@ def fetch_book_from_google(isbn: str):
 
     published = int(volume['publishedDate'].split('-')[0])
     authors = [
-        Author(name=author_data['name']) for author_data in volume['authors']
+        Author(name=author_data) for author_data in volume['authors']
     ]
     title = volume['title']
 
