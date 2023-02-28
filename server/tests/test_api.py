@@ -20,7 +20,7 @@ class TestFetchFromGoogle:
                 'volumeInfo': {
                     'title': self.book.title,
                     'authors': [
-                        {'name': author.name} for author in self.book.authors
+                        author.name for author in self.book.authors
                     ],
                     'publishedDate': f'{self.book.published}-11-1'
                 }

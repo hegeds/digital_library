@@ -47,4 +47,3 @@ class TestSQLUnitOfWork:
 
             assert fetched_book == book
             assert isinstance(self.uow.books, repositories.SQLBookRepository)
-
