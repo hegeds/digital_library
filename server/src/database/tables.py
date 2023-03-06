@@ -24,5 +24,13 @@ authors = Table(
     "authors",
     mapper_registry.metadata,
     Column('id', UUID, primary_key=True),
-    Column('name', String(200), nullable=False)
+    Column('name', String(200), nullable=False),
+)
+
+users = Table(
+    "users",
+    mapper_registry.metadata,
+    Column('id', UUID, primary_key=True),
+    Column('email', String(200), nullable=False, unique=True),
+    Column('password', String(200), nullable=False),
 )

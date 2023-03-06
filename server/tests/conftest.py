@@ -7,10 +7,12 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, close_all_sessions
 
 
-from src import app, settings, get_configurations
-from src.base.repositories import AbstractBookRepository
+from src import app, settings, get_configurations, password_context
+from src.base.repositories import (
+    AbstractBookRepository, AbstractUserRepository
+)
 from src.base.uow import AbstractUnitOfWork
-from src.models import Author, Book
+from src.models import Author, Book, User
 from src.database import mapper_registry
 
 
@@ -112,6 +114,29 @@ def create_stored_book(create_book):
 
 
 @pytest.fixture
+def create_user():
+    def _(email, raw_password):
+        hashed_password = password_context.hash(raw_password)
+
+        user = User(email, hashed_password)
+        return user
+
+    return _
+
+
+@pytest.fixture
+def create_stored_user(create_user):
+    def _(session, email, password):
+        user = create_user(email, password)
+        session.add(user)
+        session.commit()
+
+        return user
+
+    return _
+
+
+@pytest.fixture
 def book_repository():
     class TestBookRepository(AbstractBookRepository):
         calls = []
@@ -136,9 +161,31 @@ def book_repository():
 
 
 @pytest.fixture
-def uow(book_repository):
+def user_repository():
+    class TestUserRepository(AbstractUserRepository):
+        calls = []
+        result: User | None = None
+        results: list = []
+
+        def get(self, id):
+            self.calls.append(['getById', [id]])
+            return self.result
+
+        def getByEmail(self, email):
+            self.calls.append(['getByISBN', [email]])
+            return self.result
+
+        def add(self, user):
+            self.calls.append(['add', [user]])
+
+    return TestUserRepository()
+
+
+@pytest.fixture
+def uow(book_repository, user_repository):
     class TestUnitOfWork(AbstractUnitOfWork):
         books = book_repository
+        users = user_repository
         calls = []
 
         def commit(self):

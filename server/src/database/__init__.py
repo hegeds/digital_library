@@ -5,7 +5,7 @@ from src import models
 
 mapper_registry = registry()
 
-from .tables import books, authors, books_authors_table  # NOQA: E402
+from .tables import books, authors, books_authors_table, users  # NOQA: E402
 
 mapper_registry.map_imperatively(
     models.Book,
@@ -20,3 +20,4 @@ mapper_registry.map_imperatively(
 )
 
 mapper_registry.map_imperatively(models.Author, authors)
+mapper_registry.map_imperatively(models.User, users)

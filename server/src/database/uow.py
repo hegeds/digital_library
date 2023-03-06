@@ -15,6 +15,7 @@ class SQLUnitOfWork(uow.AbstractUnitOfWork):
             autocommit=False, autoflush=False, bind=self.engine
         )()
         self.books = repositories.SQLBookRepository(self.session)
+        self.users = repositories.SQLUserRepository(self.session)
         return super().__enter__()
 
     def __exit__(self, *args):

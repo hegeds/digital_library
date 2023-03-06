@@ -21,3 +21,20 @@ class SQLBookRepository(repositories.AbstractBookRepository):
 
     def add(self, book):
         self.session.add(book)
+
+
+class SQLUserRepository(repositories.AbstractUserRepository):
+    def __init__(self, session: Session):
+        self.session = session
+
+    def get(self, id):
+        return self.session.query(models.User).filter_by(id=id).one_or_none()
+
+    def getByEmail(self, email):
+        return (
+            self.session.query(models.User).filter_by(email=email)
+            .one_or_none()
+        )
+
+    def add(self, user):
+        self.session.add(user)

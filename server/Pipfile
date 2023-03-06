@@ -9,6 +9,7 @@ uvicorn = "*"
 sqlalchemy = "*"
 alembic = "*"
 psycopg2-binary = "*"
+passlib = "*"
 
 [dev-packages]
 httpx = "*"

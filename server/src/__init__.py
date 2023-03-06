@@ -1,6 +1,7 @@
 from functools import lru_cache
 from fastapi import FastAPI
 from pydantic import BaseSettings
+from passlib.context import CryptContext
 from sqlalchemy import create_engine
 
 from .api import BOOK_APIS
@@ -13,6 +14,7 @@ class Settings(BaseSettings):
 
 settings = Settings()
 app = FastAPI()
+password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 @lru_cache

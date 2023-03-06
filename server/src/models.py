@@ -21,3 +21,13 @@ class Book:
 
     def __post_init__(self) -> None:
         self.id = uuid.uuid4()
+
+
+@dataclass
+class User:
+    id: uuid.UUID = field(init=False)
+    email: str
+    password: str
+
+    def __post_init__(self) -> None:
+        self.id = uuid.uuid4()
