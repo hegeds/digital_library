@@ -2,7 +2,7 @@ import uuid
 
 from abc import ABC, abstractmethod
 
-from src.models import Book
+from src.models import Book, User
 
 
 class AbstractBookRepository(ABC):
@@ -20,4 +20,16 @@ class AbstractBookRepository(ABC):
 
     @abstractmethod
     def add(self, book: Book):
+        raise NotImplementedError
+
+
+class AbstractUserRepository(ABC):
+    @abstractmethod
+    def get(self, id: uuid.UUID) -> User | None:
+        raise NotImplementedError
+
+    def getByEmail(self, email: str) -> User | None:
+        raise NotImplementedError
+
+    def add(self, user: User):
         raise NotImplementedError

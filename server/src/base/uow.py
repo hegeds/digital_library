@@ -1,10 +1,11 @@
 from abc import ABC, abstractmethod
 
-from .repositories import AbstractBookRepository
+from .repositories import AbstractBookRepository, AbstractUserRepository
 
 
 class AbstractUnitOfWork(ABC):
     books: AbstractBookRepository
+    users: AbstractUserRepository
 
     def __enter__(self):
         pass
