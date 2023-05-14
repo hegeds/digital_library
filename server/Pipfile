@@ -10,6 +10,10 @@ sqlalchemy = "*"
 alembic = "*"
 psycopg2-binary = "*"
 passlib = "*"
+email-validator = "*"
+python-jose = {extras = ["cryptography"], version = "*"}
+install = "*"
+python-multipart = "*"
 
 [dev-packages]
 httpx = "*"
