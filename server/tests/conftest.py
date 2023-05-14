@@ -26,14 +26,16 @@ def settings_override():
     def _(configurations: dict):
         app.dependency_overrides[get_configurations] = lambda: configurations
 
-    return _
+    yield _
+
+    app.dependency_overrides[get_configurations] = get_configurations
 
 
 @pytest.fixture
 def database_engine():
     engine = create_engine(
-        settings.database_url,
-        pool_pre_ping=True
+        settings.DATABASE_URL,
+        pool_pre_ping=True,
     )
 
     mapper_registry.metadata.create_all(engine)
@@ -49,6 +51,7 @@ def Session(database_engine):
     return sessionmaker(
         autocommit=False,
         autoflush=False,
+        expire_on_commit=False,
         bind=database_engine
     )
 
@@ -172,7 +175,7 @@ def user_repository():
             return self.result
 
         def getByEmail(self, email):
-            self.calls.append(['getByISBN', [email]])
+            self.calls.append(['getByEmail', [email]])
             return self.result
 
         def add(self, user):
