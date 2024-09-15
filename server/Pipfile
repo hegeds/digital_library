@@ -13,6 +13,7 @@ passlib = "*"
 email-validator = "*"
 python-jose = {extras = ["cryptography"], version = "*"}
 python-multipart = "*"
+pydantic-settings = "*"
 
 [dev-packages]
 httpx = "*"
